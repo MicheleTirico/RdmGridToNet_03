@@ -37,6 +37,7 @@ public class layerSeed extends framework {
 		double angle = 2 * Math.PI / numNodes ;		
 		int nodeCount = graph.getNodeCount() ;
 		
+		
 		Node old = null  ;
 		ArrayList<Node> listNodes = new ArrayList<Node>();
 		

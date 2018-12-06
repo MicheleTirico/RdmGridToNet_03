@@ -13,7 +13,7 @@ import org.graphstream.ui.graphicGraph.GraphPosLengthUtils;
 
 import run.framework;
 
-public class layerCell extends framework {
+public class layerCell_old_01 extends framework {
 
 	private double sizeX, sizeY;
 	private int numCellX, numCellY , numVals, numIsTest;
@@ -32,11 +32,11 @@ public class layerCell extends framework {
 	public enum typeNeighbourhood { moore, vonNewmann , m_vn }	
 	protected  ArrayList<cell> listCell = new ArrayList<cell> ();
 	
-	public layerCell ( ) {
+	public layerCell_old_01 ( ) {
 		this(0,0,0,0 ,0 ,0 );	
 	}
 
-	public layerCell(double sizeX, double sizeY , int numCellX, int numCellY ,  int numVals ,int numIsTest ) {
+	public layerCell_old_01(double sizeX, double sizeY , int numCellX, int numCellY ,  int numVals ,int numIsTest ) {
 		this.sizeX = sizeX ;
 		this.sizeY = sizeY ;
 		this.numCellX = numCellX ;
@@ -50,7 +50,7 @@ public class layerCell extends framework {
 	public void initializeCostVal ( double[] vals ) {
 		initVals = vals ;
 		for (int x = 0; x< numCellX; x++)
-			for (int y = numCellY - 1 ; y >= 0 ; y--) {
+			for (int y = 0; y<numCellY; y++) {
 				cell c = new cell(x,y, new double[3],vals,new boolean[numIsTest] );
 				c.initCoords( sizeX, sizeY );
 				cells[x][y] = c ;

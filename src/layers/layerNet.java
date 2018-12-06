@@ -138,22 +138,23 @@ public class layerNet extends framework {
 				}
 			if ( handleLimit.equals(handleLimitBehaviur.toroid )   ) {
 				int[] sizeGrid = lRd.getSizeGrid() ;
+			
+				if ( coordX >=  sizeGrid[0]  ) {//	
 				
-				if ( coordX >  sizeGrid[0]) {
-					coordX = sizeGrid[0] - coordX;
+					coordX = Math.abs(sizeGrid[0] - coordX )  	;
 					crossBords = true ;
 				}
-				if ( coordY >  sizeGrid[1]) { 
-					coordY = sizeGrid[1] - coordY;		
+				if ( coordY >=  sizeGrid[1] ) { 
+					coordY = Math.abs(sizeGrid[1] - coordY )   ;		
 					crossBords = true ;
 				}
-				if ( coordX < 0 ) {
-					coordX = sizeGrid[0] + coordX;		
+				if ( coordX <= 0 ) {
+					coordX = sizeGrid[0] - coordX - 0.01 - 1 ;
 					crossBords = true ;
 				}
-				if ( coordY < 0 ) {
-					coordY = sizeGrid[1] + coordY;
-					crossBords = true ;
+				if ( coordY <= 0 ) {	
+					coordY = sizeGrid[1] - coordY - 0.01 - 1 ;
+					crossBords = true ;				
 				}
 			}
 		

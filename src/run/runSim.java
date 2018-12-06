@@ -11,12 +11,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 
 import dataAnalysis.analyzeNetwork;
 import dataAnalysis.handleReComputeSim;
 import dataAnalysis.indicatorSet.indicator;
 import layerViz.vizLayerCell;
 import layers.*;
+import netViz.handleVizStype;
+import netViz.handleVizStype.stylesheet;
 import run.framework.RdmType;
 import run.framework.handleLimitBehaviur;
 import run.framework.typeComp;
@@ -29,9 +32,9 @@ public class runSim implements parameters {
 	
 	public static void main ( String[] args ) throws FileNotFoundException, UnsupportedEncodingException {
 		
-		double [] fk = framework.getRdType(RdmType.holes) ;
-		double f = fk[0], 
-				k = fk[1];	//	System.out.println(f + " " + k);
+		double [] fk = framework.getRdType(RdmType.waves) ;
+		double f = fk[0], 		k = fk[1];	//	System.out.println(f + " " + k);
+//		f = 0.024 ; k = 0.055 ;
 		
 		NumberFormat nf = NumberFormat.getNumberInstance();
 		nf.setMaximumFractionDigits(3);
@@ -45,16 +48,20 @@ public class runSim implements parameters {
 
 		// layer Rd
 		layerCell lRd = new layerCell(1, 1, sizeGridX, sizeGridY ,2,5) ;
-		lRd.initializeCostVal(new double[] {1,0});
-		lRd.setValueOfCellAround(new double[] {1, 1}, sizeGridX/3,sizeGridY/2 ,3 );
-
-		lRd.setReachBord( true , deltaCech);
+		lRd.initializeCostVal(new double[] {1,0});		
+		
+		lRd.setReachBord( true , deltaCech );
 		lRd.setGsParameters(f , k , 0.2, 0.1, typeDiffusion.mooreCost);
 		
 		// layer max local
 		layerMaxLoc lMl = new layerMaxLoc(true,true, typeInit.test, typeComp.wholeGrid ,1) ;
 		lMl.setLayers(lRd, bks);
 		lMl.initializeLayer();
+		
+		// layer infinite paraboloid 
+		layerCell lParab = new layerCell(1, 1, sizeGridX, sizeGridY ,3,3) ;
+		lParab.initCells();
+		lParab.setGridInValsLayer(lParab.getInfiniteParaboloid(0, .2000, .200, new double[] {sizeGridX/2 ,sizeGridY/2 ,0} ), 0);
 		
 		// layer bumps
 		layerCell lBumps = new layerCell(1, 1, sizeGridX, sizeGridY ,3,3) ;
@@ -64,34 +71,50 @@ public class runSim implements parameters {
 		// vector field Rd
 		vectorField vfRd = new vectorField(lRd, 1, 1 , sizeGridX, sizeGridY, typeVectorField.slopeDistanceRadius) ;
 		vfRd.setSlopeParameters( 1 , r, alfa, true, typeRadius.circle);
-				
+			
+		vectorField vfBumps = new vectorField(lBumps,  1, 1 , sizeGridX, sizeGridY, typeVectorField.minVal);
+		vfBumps.setMinDirectionParameters(0);
+		
+		vectorField vfParab = new vectorField(lParab, 1, 1, sizeGridX , sizeGridY, typeVectorField.interpolation);
+		vfParab.setInterpolationParameters( 0, 1, 2);
+		
 		// layer Seed
-		vectorField[] vfs = new vectorField[] { vfRd } ; 
+		vectorField[] vfs = new vectorField[] { vfRd , vfBumps  } ; 
 		layerSeed lSeed = new layerSeed( vfs, 
-				new double[] { 1 //, 0.0		
+				new double[] { 1 , 0.2		
 				} ) ;																																				
 																						
 		// layer net
 		layerNet lNet = new layerNet("net") ;
 		lNet.setLayers( bks, lSeed, lRd, lMl);
 		lSeed.setLayers(lNet, bks, lRd);
-		lSeed.initSeedCircle(numNodes, radiusNet, sizeGridX/2, sizeGridY/2);	
-		framework.initCircle(perturVal0,perturVal1,numNodes , sizeGridX/2 ,sizeGridY/2, 2 , radiusNet );				
-
+	//	framework.initCircle(lSeed, lRd, new double[] {1,1} , numNodes,new int[] { sizeGridX/2 , sizeGridY/2 }, radiusNet);
+		
+		framework.initMultiRandomCircle(lSeed, lRd,  new double[] {1,1}, numNodes, radiusRd, 2, 8 );
 		lNet.setLengthEdges("length" , true );
 		
 		Graph netGr = lNet.getGraph();
 	
+		
 		netGr.display(false) ;
 		vizLayerCell vizlRd = new vizLayerCell(lRd, 1);
+		
+		// setup viz netGraph
+		handleVizStype netViz = new handleVizStype( netGr ,stylesheet.manual , "seed", 1) ;
+		netViz.setupIdViz(false , netGr, 20 , "black");
+		netViz.setupDefaultParam (netGr, "black", "black", 5 , 0.5 );
+		netViz.setupVizBooleanAtr(true, netGr, "black", "red" , false , false ) ;
+		netViz.setupFixScaleManual( true , netGr, sizeGridX , 0);
+	
 		
 		int t = 0 ; 	//		System.out.print("steps : " );
 		// lNet.seedHasReachLimit = false ;	
 				
 		while ( t <= stepMax // 	&& ! lSeed.getListSeeds().isEmpty() 
-				&& lNet.seedHasReachLimit == false 
-				&& lRd.getHasReachBord() == false
-				) {	//	if ( t / (double) stepToPrint - (int)(t / (double) stepToPrint ) < 0.0001) System.out.println( nameFile +" " + "step: " + t);
+		//		&& lNet.seedHasReachLimit == false 
+		//		&& lRd.getHasReachBord() == false
+				) {	//	
+			if ( t / (double) stepToPrint - (int)(t / (double) stepToPrint ) < 0.0001) System.out.println( nameFile +" " + "step: " + t);
 
 			// update layers
 			lRd.updateLayer();

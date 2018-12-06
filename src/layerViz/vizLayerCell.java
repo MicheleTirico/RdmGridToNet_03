@@ -52,9 +52,9 @@ public class vizLayerCell extends JFrame {
 
 		assert(sizeGrid[0] == size && sizeGrid[1] == size);
 
-		for(int y=0; y<size; y++) {
-			for(int x=0; x<size; x++) {
-				iRd.setRGB(x, y, Color.HSBtoRGB((float)(lC.getCell(x, y).getVals()[posVal]/1.0), 1f, 1f));
+			for(int y=0; y<size; y++) {
+				for(int x=0; x<size; x++) {
+				iRd.setRGB(x, size - y - 1, Color.HSBtoRGB((float)(lC.getCell(x, y).getVals()[posVal]/1.0), 1f, 1f));
 			}
 		}
 	}

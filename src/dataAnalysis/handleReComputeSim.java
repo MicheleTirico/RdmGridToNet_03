@@ -19,7 +19,6 @@ public class handleReComputeSim {
 	
 	public static boolean isAllIndicatorInDirectory (String nameFile , String path ) {
 		indicator[] list = indicatorSet.getAllIndicators ();
-	//	System.out.println(path + nameFile+ list[0] + ".csv" );
 		boolean test = false ;
 		int pos = 0 ;
 		while ( test == false && pos < list.length ) {
@@ -30,15 +29,32 @@ public class handleReComputeSim {
 			pos ++ ;
 		}
 		return test ;
-		
-//		for ( indicator in : indicatorSet.getAllIndicators () ) {
-//			String pathFile = path + nameFile+ in + ".csv" ;			
-//			// handle file if exist 
-//			File f = new File(pathFile); 
-//			if ( f.exists() )  
-//				break ;
-//		}
 	}
+	
+	public static boolean isOneOfIndicatorNotComputed ( String nameFile , String path ) {	
+		System.out.println(getNumFile(nameFile , path));
+		System.out.println(indicatorSet.getAllIndicators ().length );
+		if ( getNumFile(nameFile , path) == indicatorSet.getAllIndicators ().length )
+			return true ;
+		else
+			return false;
+	}
+	
+	public static int getNumFile ( String nameFile , String path ) {
+		int val = 0 ;
+		indicator[] list = indicatorSet.getAllIndicators ();
+		int pos = 0 ;
+		while ( pos < list.length ) {
+			String pathFile = path + nameFile+ list[pos] + ".csv" ;			
+			File f = new File(pathFile); 
+			if ( f.exists() )  
+				val++ ;
+			pos ++ ;
+		}
+		return val ;
+	}
+	
+	
 	
 	public boolean isFileInDirectory ( String nameFile ) {
 		f = new File(path + "/" + nameFile);

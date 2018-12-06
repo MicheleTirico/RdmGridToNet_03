@@ -2,11 +2,14 @@ package run;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphPosLengthUtils;
 
 import dataAnalysis.storeInfo;
+import layers.layerCell;
+import layers.layerSeed;
 import layers.symplifyNetwork;
 
 public abstract class framework implements parameters {
@@ -42,12 +45,25 @@ public abstract class framework implements parameters {
 	}
 	
 
+// INITIALIZATION -----------------------------------------------------------------------------------------------------------------------------------	
 	
-	// initialize world with more than 1 circle and corresponding Rdm pulse 
-	public static void initCircle ( double valA , double valB , int numNodes , int centreX ,int centreY , int radiusRd , int radiusNet ) {	
-	//	lRd.setValueOfCellAround(valA, valB, centreX, centreY, radiusRd);		
+	public static void initMultiRandomCircle ( layerSeed lSeed , layerCell lCell , double[] vals  , int numNodes  , int radiusRd , int radiusNet ,int numCentres ) {
+		for ( double[] centre : getRandomDoubleList(10, numCentres, Math.max(radiusRd, radiusNet) , lCell.getSizeGrid()[0] - Math.max(radiusRd, radiusNet)  ) ) {
+			System.out.println(centre[0] + " "+centre[1]);
+			lSeed.initSeedCircle(numNodes, radiusNet , (int)centre[0] , (int) centre[1] );
+			lCell.setValueOfCell(vals,  (int) centre[0] , (int) centre[1]);
+		}
+	}
 	
-	//	lSeed.initSeedCircle(numNodes, radiusNet, centreX,centreY );
+	public static void initCircle ( layerSeed lSeed , layerCell lCell , double[] vals  , int numNodes , int[] centre , int radiusNet ) {		
+		lSeed.initSeedCircle(numNodes, radiusNet,centre[0] , centre[1] );
+		lCell.setValueOfCell(vals, centre[0] , centre[1]);
+	}
+	
+	
+	public static void initCircleRadiusRd ( layerSeed lSeed , layerCell lCell , double[] vals  , int numNodes , int[] centre , int radiusRd , int radiusNet  ) {	
+		lSeed.initSeedCircle(numNodes, radiusNet,centre[0] , centre[1] );
+		lCell.setValueOfCellAround(vals,  centre[0] , centre[1] , radiusRd );
 	}
 	
 	// set RD start values to use in similtion ( gsAlgo )
@@ -144,4 +160,14 @@ public abstract class framework implements parameters {
 			return arr ;
 		}
 		
+		public static ArrayList<double[]> getRandomDoubleList ( int seedRandom , int numVals , double min , double max ) {
+			ArrayList<double[]> list = new ArrayList<double[]>  () ;
+			Random rd = new Random(seedRandom) ;
+			while ( list.size() < numVals ) { 
+				double val1 = min + rd.nextDouble() * ( max - min ) ,
+						val2 = min + rd.nextDouble() * ( max - min ) ;
+				list.add(new double [] {val1 , val2} ) ;
+			}
+			return list ;
+		}
 }

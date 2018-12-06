@@ -34,16 +34,18 @@ public class runThread extends Thread implements parameters {
 
 	private double [] arrayF = framework.getArrayVals(minFeed, maxFeed, incremFeed);
 	private double [] arrayK = framework.getArrayVals(minKill , maxKill , incremKill );
-	private ArrayList<double[]> params = framework.getListParams(true , arrayF, arrayK);
-	private static ArrayList<double[]> paramsVisited = new ArrayList<double[]>();
-	
+	private ArrayList<double[]> params = framework.getListParams(false , arrayF, arrayK);
+	private ArrayList<double[]> paramsVisited = new ArrayList<double[]>();
+	static int pos = 0 ;
 	public void run ( ) {
+	
+		
+		while ( paramsVisited.size() < params.size() ) {
+			
+			double[] fk = params.get(pos);
 
-		int pos = 0 ;
-		while ( paramsVisited.size() != params.size() ) {
-			double[] fk = params.get(pos++);
 			paramsVisited.add(fk);
-
+			pos++;
 			double f = fk[0], 
 					k = fk[1];	//	System.out.println(f + " " + k);
 			
@@ -51,10 +53,17 @@ public class runThread extends Thread implements parameters {
 			nf.setMaximumFractionDigits(3);
 			String nameFile = "f-"+ nf.format(f)+"_k-"+ nf.format(k)+"_";
 			
-			if ( handleReComputeSim.isAllIndicatorInDirectory(nameFile , path + "analysisNet/") ) {
+			int numIndComputed = handleReComputeSim.getNumFile ( nameFile , path + "analysisNet/") ;
+	
+			if ( numIndComputed == 5   ) {
 				System.out.println(nameFile + " already computed ");
 				continue ;	
 			}
+			
+//			if ( handleReComputeSim.isAllIndicatorInDirectory(nameFile , path + "analysisNet/") ) {
+//				System.out.println(nameFile + " already computed ");
+//				continue ;	
+//			}
 			
 			System.out.println("start " + nameFile + " " + new Date().toString() );
 			
@@ -94,8 +103,7 @@ public class runThread extends Thread implements parameters {
 			layerNet lNet = new layerNet("net") ;
 			lNet.setLayers( bks, lSeed, lRd, lMl);
 			lSeed.setLayers(lNet, bks, lRd);
-			lSeed.initSeedCircle(numNodes, radiusNet, sizeGridX/2, sizeGridY/2);	
-			framework.initCircle(perturVal0,perturVal1,numNodes , sizeGridX/2 ,sizeGridY/2, 2 , radiusNet );				
+			lSeed.initSeedCircle(numNodes, radiusNet, sizeGridX/2, sizeGridY/2);		
 	
 			lNet.setLengthEdges("length" , true );
 			
@@ -170,12 +178,12 @@ public class runThread extends Thread implements parameters {
 					&& lNet.seedHasReachLimit == false 
 					&& lRd.getHasReachBord() == false
 					) {	// 	if ( t / (double) stepToPrint - (int)(t / (double) stepToPrint ) < 0.0001) System.out.println( nameFile +" " + "step: " + t);
-	
+			
 				// update layers
 				lRd.updateLayer();
 				lMl.updateLayer();
 				lNet.updateLayers( 0 ,true,1);
-
+			
 				
 				// analysis network
 				try {
@@ -183,7 +191,7 @@ public class runThread extends Thread implements parameters {
 					simNet.compute(t);
 					analSimNet.compute(t);
 				} catch (Exception e) {
-					e.printStackTrace();
+				//	e.printStackTrace();
 				}				
 				t++ ;
 			}
@@ -240,9 +248,17 @@ public class runThread extends Thread implements parameters {
 		int a = 0 ;
 		while ( a < numThread ) {
 			runThread m = new runThread(a++);
-			m.start();
-	
+			m.start();	
+			
 		}
+		System.out.println("died");
+		a = 0 ;
+		while ( a < numThread ) {
+			runThread m = new runThread(a++);
+			m.start();	
+			
+		}
+			
 	}
 	
 	
