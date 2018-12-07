@@ -19,10 +19,9 @@ public class layerMaxLoc extends framework {
 	protected static String idMaxLoc ;
 	private layerCell lCell ;
 	private int posVal  ;
-	
-	
+		
 	private typeInit  typeInit ;
-	private typeComp typeComp ;
+	private typeComp typeComp ; 
 	
 	public layerMaxLoc () {
 		this(false, false, null, null, 0);
@@ -35,7 +34,6 @@ public class layerMaxLoc extends framework {
 	
 	public layerMaxLoc ( boolean compute ,  boolean vizLayer , typeInit  typeInit , typeComp typeComp ,  int posVal  ) {
 		this.compute = compute ;
-		
 		this.vizLayer = vizLayer;
 		this.typeInit = typeInit ;
 		this.typeComp = typeComp ;	

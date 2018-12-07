@@ -546,4 +546,12 @@ public class layerNet extends framework {
 		return listNeig ;
 	}
 	
+	public int getIdNodeInt ( ) {
+		return idNodeInt ;
+	}
+	
+	public void setIdNodeNet ( int  idNodeInt ) {
+		this.idNodeInt= idNodeInt ; 
+	}
+	
 }

@@ -26,7 +26,7 @@ public class storeInfo {
 	public void createInfo () throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter(path + nameFile +".txt", "UTF-8");
 		for ( String line : listOfLine )
-			writer.println(line);
+			writer.println(line); 
 		writer.close();
 	}
 	

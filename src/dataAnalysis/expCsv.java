@@ -27,10 +27,8 @@ public class expCsv extends analysis {
     	List<String> list = Arrays.asList(values);
         writeLine(w, list, separators, ' ');
     }
-    
 
     public static void addCsv_header(Writer w, String header ) throws IOException  {
-        
     	  StringBuilder sb = new StringBuilder();
     	  sb.append(followCVSformat(header));
     	  sb.append("\n");

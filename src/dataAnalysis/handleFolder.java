@@ -9,8 +9,7 @@ public class handleFolder extends analysis {
 	public handleFolder( String path ) {
 		this.path = path ;
 	}
-	
-	
+		
 	public String createNewGenericFolder ( String nameFolder ) {	 
 		path = path+"/"+ nameFolder;
 		File file = new File(path);

@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphPosLengthUtils;
 
 import dataAnalysis.storeInfo;
 import layers.layerCell;
+import layers.layerNet;
 import layers.layerSeed;
 import layers.symplifyNetwork;
 
@@ -46,16 +48,38 @@ public abstract class framework implements parameters {
 	
 
 // INITIALIZATION -----------------------------------------------------------------------------------------------------------------------------------	
-	
-	public static void initMultiRandomCircle ( layerSeed lSeed , layerCell lCell , double[] vals  , int numNodes  , int radiusRd , int radiusNet ,int numCentres ) {
-		for ( double[] centre : getRandomDoubleList(10, numCentres, Math.max(radiusRd, radiusNet) , lCell.getSizeGrid()[0] - Math.max(radiusRd, radiusNet)  ) ) {
-			System.out.println(centre[0] + " "+centre[1]);
-			lSeed.initSeedCircle(numNodes, radiusNet , (int)centre[0] , (int) centre[1] );
-			lCell.setValueOfCell(vals,  (int) centre[0] , (int) centre[1]);
+	public static void initRandomSeed ( layerSeed lSeed , layerCell lCell , layerNet lNet, double[] vals  , int numSeeds , int seedRandom ) {
+		Graph g = lNet.getGraph();
+		Random rd = new Random(seedRandom) ;
+		for ( double[] coordSeed : getRandomDoubleList(seedRandom, numSeeds, 1 , lCell.getSizeGrid()[0] - 1 ) ) {
+			
+			Node n = g.addNode(Integer.toString(lNet.getIdNodeInt()));
+			lNet.setIdNodeNet(lNet.getIdNodeInt() + 1 );
+			n.addAttribute("xyz", coordSeed[0],coordSeed[1], 0 );
+			lSeed.createSeed(coordSeed[0], coordSeed[1] , n);
+			lCell.setValueOfCell(vals,  (int) coordSeed[0] , (int) coordSeed[1]);	
 		}
 	}
 	
-	public static void initCircle ( layerSeed lSeed , layerCell lCell , double[] vals  , int numNodes , int[] centre , int radiusNet ) {		
+	
+	public static double getRandomDeltaSign ( double delta ) {
+		Random rd = new Random( ) ;
+		if ( rd.nextBoolean() )
+			return delta ;
+		else 
+			return - delta ; 
+	} 
+	
+	public static void initMultiRandomCircle ( layerSeed lSeed , layerCell lCell , double[] vals  , int numNodes  , double radiusRd , double radiusNet ,int numCentres ) {
+		for ( double[] centre : getRandomDoubleList(10, numCentres, Math.max(radiusRd, radiusNet) , lCell.getSizeGrid()[0] - Math.max(radiusRd, radiusNet)  ) ) {
+		//	System.out.println(centre[0] + " "+centre[1]);
+			lSeed.initSeedCircle(numNodes, radiusNet , (int) centre[0] + getRandomDeltaSign(0.05), (int) centre[1] + getRandomDeltaSign(0.05) );
+
+			lCell.setValueOfCellAround(vals,  (int) centre[0] , (int) centre[1] , radiusRd );
+		}
+	}
+	
+	public static void initCircle ( layerSeed lSeed , layerCell lCell , double[] vals  , int numNodes , int[] centre , double radiusNet ) {		
 		lSeed.initSeedCircle(numNodes, radiusNet,centre[0] , centre[1] );
 		lCell.setValueOfCell(vals, centre[0] , centre[1]);
 	}
@@ -139,7 +163,7 @@ public abstract class framework implements parameters {
 			if ( doShuttle ) 
 				 Collections.shuffle(list);
 			
-				return list;
+			return list;
 		}
 		
 		/**

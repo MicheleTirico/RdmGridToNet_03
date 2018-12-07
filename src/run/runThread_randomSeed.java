@@ -25,10 +25,10 @@ import run.framework.typeInit;
 import run.framework.typeRadius;
 import run.framework.typeVectorField;
 
-public class runThread extends Thread implements parameters {
+public class runThread_randomSeed extends Thread implements parameters {
 
 	private int th ; 
-	public runThread(int th) {
+	public runThread_randomSeed(int th) {
 		this.th = th; 
 	}
 
@@ -54,56 +54,45 @@ public class runThread extends Thread implements parameters {
 			
 			int numIndComputed = handleReComputeSim.getNumFile ( nameFile , path + "analysisNet/") ;
 	
-			if ( numIndComputed == 5   ) {
+			if ( numIndComputed == 5 ) {
 				System.out.println(nameFile + " already computed ");
 				continue ;	
 			}
-			
-//			if ( handleReComputeSim.isAllIndicatorInDirectory(nameFile , path + "analysisNet/") ) {
-//				System.out.println(nameFile + " already computed ");
-//				continue ;	
-//			}
 			
 			System.out.println("start " + nameFile + " " + new Date().toString() );
 			
 			// bucket set
 			bucketSet bks = new bucketSet(1, 1, sizeGridX, sizeGridY ); 
 			bks.initializeBukets(); 
-	
 			// layer Rd
 			layerCell lRd = new layerCell(1, 1, sizeGridX, sizeGridY ,2,5) ;
-			lRd.initializeCostVal(new double[] {1,0});
-			lRd.setValueOfCellAround(new double[] {1, 1}, sizeGridX/2,sizeGridY/2 ,3 );
-
-			lRd.setReachBord( true , deltaCech);
-			lRd.setGsParameters(f , k , Da, Db, typeDiffusion.mooreCost);
+			lRd.initializeCostVal(new double[] {1,0});		
+			
+			lRd.setReachBord( true , deltaCech );
+			lRd.setGsParameters(f , k , Da, Db, tyDif );
 			
 			// layer max local
-			layerMaxLoc lMl = new layerMaxLoc(true,true, typeInit.test, typeComp.wholeGrid ,1);
+			layerMaxLoc lMl = new layerMaxLoc(true,true, typeInit.test, typeComp.wholeGrid ,1) ;
 			lMl.setLayers(lRd, bks);
 			lMl.initializeLayer();
 			
-			// layer bumps
-			layerCell lBumps = new layerCell(1, 1, sizeGridX, sizeGridY ,3,3) ;
-			lBumps.initCells();		
-			lBumps.setGridInValsLayer(lBumps.getBumbsFromPosition ( 1 , 1 , 10) , 0);		
-			
 			// vector field Rd
 			vectorField vfRd = new vectorField(lRd, 1, 1 , sizeGridX, sizeGridY, typeVectorField.slopeDistanceRadius) ;
-			vfRd.setSlopeParameters( 1 , r, alfa, true, typeRadius.circle);
-					
+			vfRd.setSlopeParameters( 1 , r, alfa, true , typeRadius.circle);
+		
 			// layer Seed
-			vectorField[] vfs = new vectorField[] { vfRd } ; 
-			layerSeed lSeed = new layerSeed( vfs																						
-					, new double[] { 1 //, 0.0																		
-			} );
-																					
+			vectorField[] vfs = new vectorField[] { vfRd   } ; 
+			layerSeed lSeed = new layerSeed( vfs, 
+					new double[] { 1	
+					} ) ;																																				
+																							
 			// layer net
 			layerNet lNet = new layerNet("net") ;
 			lNet.setLayers( bks, lSeed, lRd, lMl);
 			lSeed.setLayers(lNet, bks, lRd);
-			lSeed.initSeedCircle(numNodes, radiusNet, sizeGridX/2, sizeGridY/2);		
-	
+		//	framework.initCircle(lSeed, lRd, new double[] {1,1} , numNodes,new int[] { sizeGridX/2 , sizeGridY/2 }, radiusNet);
+			framework.initMultiRandomCircle(lSeed, lRd,  new double[] {perturVal0,perturVal1}, numNodes, radiusRd , radiusNet , numInit );
+		//	framework.initRandomSeed(lSeed, lRd, lNet,  new double[] {1,1} , 200, 20);
 			lNet.setLengthEdges("length" , true );
 			
 			Graph netGr = lNet.getGraph();
@@ -246,17 +235,12 @@ public class runThread extends Thread implements parameters {
 	
 		int a = 0 ;
 		while ( a < numThread ) {
-			runThread m = new runThread(a++);
+			runThread_randomSeed m = new runThread_randomSeed(a++);
 			m.start();	
 			
 		}
-		System.out.println("died");
-		a = 0 ;
-		while ( a < numThread ) {
-			runThread m = new runThread(a++);
-			m.start();	
 			
-		}
+		
 			
 	}
 	

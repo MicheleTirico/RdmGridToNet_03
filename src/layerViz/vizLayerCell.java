@@ -30,15 +30,16 @@ public class vizLayerCell extends JFrame {
 
 		iRd = new BufferedImage(sizeGrid[0], sizeGrid[1], BufferedImage.TYPE_INT_ARGB);
 		gfx = iRd.createGraphics();
-
+		
 		canvas = new RDPanel(iRd);
-
+		
 		setLayout(new BorderLayout());
 		add(canvas, BorderLayout.CENTER);
 		pack();
 		setSize(new Dimension(getInsets().right + getInsets().left + sizeGrid[0], getInsets().top + getInsets().bottom + sizeGrid[1]));
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -50,7 +51,7 @@ public class vizLayerCell extends JFrame {
 	protected void renderImage() { 
 		int size = iRd.getWidth();
 
-		assert(sizeGrid[0] == size && sizeGrid[1] == size);
+		assert(sizeGrid[0] == size  && sizeGrid[1] == size );
 
 			for(int y=0; y<size; y++) {
 				for(int x=0; x<size; x++) {

@@ -175,7 +175,7 @@ public class layerCell extends framework {
 	}
 	
 	// set perturbation in radius
-	public void setValueOfCellAround  ( double[] vals , int cellX, int cellY, int radius ) {
+	public void setValueOfCellAround  ( double[] vals , int cellX, int cellY, double radius ) {
 		for ( int x = (int) Math.floor(cellX - radius) ; x <= (int) Math.ceil(cellX + radius ) ; x++  )
 			for ( int y = (int) Math.floor(cellY - radius ) ; y <= (int) Math.ceil(cellY + radius ) ; y++  ) {
 				cells[x][y].setVals(vals);							

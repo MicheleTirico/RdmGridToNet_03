@@ -5,11 +5,11 @@ import run.framework.typeDiffusion;
 
 public interface parameters {
 	
-	final static int numThread = 4 ;
+	final static int numThread = 9 ;
 	// common parameters
 	final static int stepToStore = 10 , 
 				stepToAnalyze = 10 ,
-				stepToPrint = 1000 ,
+				stepToPrint = 100 ,
 				stepMax = 5000 ;	
 
 	// parameters multi sim 
@@ -21,7 +21,7 @@ public interface parameters {
 			maxKill = 0.095 ;
 	final static int numberOfSimulations =  (int) ((((maxFeed - minFeed ) / incremFeed ) + 1 ) * ( ( (maxKill - minKill ) / incremKill ) + 1 ) )  ;  ;
 		
-	final static  String  path = "D://results_08/" ; //"/home/researcher/multiSim/results_08/" ;
+	final static  String  path = "/home/researcher/multiSim/results_randomSeed/03/" ;//"D://test/" ; //"/home/researcher/multiSim/results_08/" ;
 		
 	// store and analysis parameters 
 	final static boolean  
@@ -32,8 +32,8 @@ public interface parameters {
 			runAnalysisSimNet = true ;
 	
 	// layer Rd
-	final static int sizeGridX = 100, 
-			sizeGridY = 100 ;
+	final static int sizeGridX = 200, 
+			sizeGridY = 200 ;
 	final static double Da = 0.2 , 
 			Db = 0.1 ,
 			initVal0 = 1 ,
@@ -50,9 +50,12 @@ public interface parameters {
 			minDistSeed = 1 , 
 			alfa = 2 ;
 
-	// initialize circle seeds
-	final static int numNodes = 20 , 
-			radiusRd = 2 , 
-			radiusNet = 4 ;
+	// initialize 
+	final static int 
+			numNodes = 1 , 
+			numInit = 100 ;
+	final static double
+			radiusRd = .5 , 
+			radiusNet = 2 ;
 		
 }

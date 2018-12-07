@@ -37,7 +37,6 @@ public class layerSeed extends framework {
 		double angle = 2 * Math.PI / numNodes ;		
 		int nodeCount = graph.getNodeCount() ;
 		
-		
 		Node old = null  ;
 		ArrayList<Node> listNodes = new ArrayList<Node>();
 		
@@ -61,14 +60,15 @@ public class layerSeed extends framework {
 				idEdgeInt++;
 			} catch (NullPointerException e)  {			//		e.printStackTrace();
 			
-			}
+			} 
 			old = n ;
-		}	
-		idEdge = Integer.toString(idEdgeInt+1 );
-		Edge e = graph.addEdge(idEdge, old, listNodes.get(0));
-		e.addAttribute("length", getDistGeom(listNodes.get(0),old));
-		idEdgeInt++;
-		
+		}
+		if ( numNodes > 2 ) {
+			idEdge = Integer.toString(idEdgeInt+1 );
+			Edge e = graph.addEdge(idEdge, old, listNodes.get(0));
+			e.addAttribute("length", getDistGeom(listNodes.get(0),old));
+			idEdgeInt++;
+		}		
 	//	System.out.println(bks.getListBucket().size());
 		for ( Node n : graph.getEachNode()) {
 	//		System.out.println(n.getId());
@@ -112,6 +112,7 @@ public class layerSeed extends framework {
 		seeds.add(s) ;
 		setSeedInCell(s, setSeedInCell , lCell );
 	}
+
 	public void createSeed(seed s ) {
 		seeds.add(s);
 	}

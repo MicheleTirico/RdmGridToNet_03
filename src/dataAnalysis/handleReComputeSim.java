@@ -54,8 +54,6 @@ public class handleReComputeSim {
 		return val ;
 	}
 	
-	
-	
 	public boolean isFileInDirectory ( String nameFile ) {
 		f = new File(path + "/" + nameFile);
 		if ( f.exists() == true ) 
