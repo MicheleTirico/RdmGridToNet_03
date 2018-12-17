@@ -68,9 +68,7 @@ public class cell {
     public void setVal ( int pos , double val ) {
     	arrayVals[pos] = val ;
     }
-    
-    
-    
+      
     public void setCoord ( int coord , double val ) {
     	coords[coord] = val ;
     }

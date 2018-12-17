@@ -21,7 +21,7 @@ public interface parameters {
 			maxKill = 0.095 ;
 	final static int numberOfSimulations =  (int) ((((maxFeed - minFeed ) / incremFeed ) + 1 ) * ( ( (maxKill - minKill ) / incremKill ) + 1 ) )  ;  ;
 		
-	final static  String  path = "/home/researcher/multiSim/results_randomSeed/03/" ;//"D://test/" ; //"/home/researcher/multiSim/results_08/" ;
+	final static  String  path =  "/home/researcher/multiSim/results_randomSeed/03/" ;//"D://test/" ; //"/home/researcher/multiSim/results_08/" ;
 		
 	// store and analysis parameters 
 	final static boolean  
