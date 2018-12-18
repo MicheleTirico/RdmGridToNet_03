@@ -40,19 +40,19 @@ public interface parameters {
 			initVal1 = 0 ,
 			perturVal0 = 1 ,
 			perturVal1 = 1 ;	
-	final static typeDiffusion tyDif = typeDiffusion.mooreCost ;
+	final static typeDiffusion tyDif = typeDiffusion.mooreWeigthed ;
 	final static boolean ceckReachBord = false ;
 	final static double deltaCech = 0.05 ;
 	final static handleLimitBehaviur handleLimit = handleLimitBehaviur.toroid ; // not implem
 	
 	// layer seed and vector field
-	final static double r = 2 ,
+	final static double r = 1 ,
 			minDistSeed = 1 , 
 			alfa = 2 ;
 
 	// initialize 
 	final static int 
-			numNodes = 1 , 
+			numNodes = 20 , 
 			numInit = 100 ;
 	final static double
 			radiusRd = .5 , 

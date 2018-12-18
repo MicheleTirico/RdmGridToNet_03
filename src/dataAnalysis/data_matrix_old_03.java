@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,7 +12,7 @@ import java.util.Map;
 
 import scala.languageFeature.reflectiveCalls;
 
-public class data_matrix {
+public class data_matrix_old_03 {
 
 	protected static double Da , Db, f, k,  numStartSeed, sizeGrid , stepStore;
 	protected static String path = "D:\\java_data_analysis\\data_test";
@@ -36,8 +35,6 @@ public class data_matrix {
 	
 	static File[] files = new File(path).listFiles();
 	static ArrayList< matrixValues > valuesStepMax = new ArrayList<matrixValues>();
-	private static Map <Integer, matrixValues> mapIdMv = new HashMap <Integer, matrixValues>() ;
-	private static Map <Integer, double[]> mapIdFk = new HashMap <Integer,  double[]>() ;
 	
 	static BufferedReader br ;
     public static void main(String[] args) throws IOException  {
@@ -63,14 +60,15 @@ public class data_matrix {
     		String lineIndicator = br.readLine() ,
     				nameIndStr = lineIndicator.split(";")[0],
     				line = br.readLine() ;
-    	
-    		matrixValues mv = null ;
-    		computeStepMax_old csm = null ;
+    		
+    		boolean  isFKinList = false;
+    		
     		if ( ! listF.contains(f) || ! listK.contains(k)) {
+    			isFKinList = true ;
     			int id = valuesStepMax.size() ;
     			double[] fk = new double[] {f,k} ;
     			ArrayList<Double> commonParams = new ArrayList<Double>( Arrays.asList( Da , Db,  numStartSeed, sizeGrid , stepStore )) ;	
-    			mv = new matrixValues(id, fk, commonParams , new ArrayList<Double>(), new ArrayList<String>());
+    			matrixValues mv = new matrixValues(id, fk, commonParams , new ArrayList<Double>(), new ArrayList<String>());
     			
     			if (! listF.contains(f))
     				listF.add(f);
@@ -80,53 +78,41 @@ public class data_matrix {
     			listFK.add(fk);
     			listId.add(id);
     			valuesStepMax.add(mv);	
-    			mapIdMv.put(id, mv);
-    			mapIdFk.put(id, fk) ;
-    			csm = new computeStepMax_old();		
-    		}
-    		
-			// compute for degree distribution
-    		if ( nameIndStr.equals(setNameInd[0])) {
-    			whichVal[] wv = new whichVal [] { 
-    					whichVal.stepMax, 
-    					whichVal.nodeCount ,
-    					whichVal.nodeCountNo2d} ;
-    		
-    			ArrayList<String> n = mv.getNameVals1() ;
-    			n.addAll(getListNameVals(wv)) ;
+    			computeStepMax_old csm = new computeStepMax_old();
     			
-    			ArrayList<Double> vals = csm.getValsList(wv) ;	
-    			mv.setvals1(vals);	
-    			mv.setNameVals1(n);
+    			
+    			// compute for degree distribution
+        		if ( nameIndStr.equals(setNameInd[0])) {
+        			whichVal[] wv = new whichVal [] { 
+        					whichVal.stepMax, 
+        					whichVal.nodeCount ,
+        					whichVal.nodeCountNo2d} ;
+        		
+        			ArrayList<String> n = mv.getNameVals1() ;
+        			n.addAll(getListNameVals(wv)) ;
+        			
+        			ArrayList<Double> vals = csm.getValsList(wv) ;	
+        			mv.setvals1(vals);	
+        			mv.setNameVals1(n);
+        		}
+        		System.out.println(nameIndStr);
+        		if ( nameIndStr.equals(setNameInd[1])) {
+        			System.out.println(nameIndStr);
+        			
+        		}
+        	
     		}
-        	data_matrix.getMV() ;
-//    		if ( nameIndStr.equals(setNameInd[1])) {
-//    			
-//    			whichVal[] wv = new whichVal [] { 
-//    					whichVal.edgeCount 
-//    					} ;
-//    			
-//    			ArrayList<String> n = mv.getNameVals1() ;
-//    			n.addAll(getListNameVals(wv)) ;
-//    			
-//    			ArrayList<Double> vals = csm.getValsList(wv) ;	
-//    			mv.setvals1(vals);	
-//    			mv.setNameVals1(n);
-//    			
-//    		}
-    	
-		}
     		
     	    	       
-    	
-    	
+    	}
+        
     	for ( matrixValues mv : valuesStepMax ) {
 //    		System.out.println(mv.getvals0()) ;
 //    		System.out.println(mv.getNameVals1()) ;
 //    		System.out.println(mv.getvals1()) ;
     	}
    
-        System.out.println("\n"+"size listF " + listF.size() + listF);
+        System.out.println("size listF " + listF.size() + listF);
         System.out.println("size listK " + listK.size() + listK);
         System.out.println("size listFK " + listFK.size() +  listFK );
         System.out.println("size listid " + listId.size() + listId );
@@ -145,12 +131,5 @@ public class data_matrix {
     	for ( whichVal w : wv  ) 
 			nameVals.add(w.getNameVal());
     	return nameVals ;
-    }
-    
-// GET MV -------------------------------------------------------------------------------------------------------------------------------------------
-    
-    public static matrixValues getMV () {
-		
-    	return null;
     }
 }

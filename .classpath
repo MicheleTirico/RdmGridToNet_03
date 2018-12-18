@@ -5,5 +5,24 @@
 	<classpathentry kind="lib" path="D:/JAVA/libraries/graphstream/gs-algo-1.3.jar"/>
 	<classpathentry kind="lib" path="D:/JAVA/libraries/graphstream/gs-core-1.3.jar"/>
 	<classpathentry kind="lib" path="D:/JAVA/libraries/graphstream/gs-ui-1.3.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-glfw.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-glfw-natives-linux.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-glfw-natives-macos.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-natives-macos.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-opengl.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-opengl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-opengl-natives-macos.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-vulkan.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/lwjgl-vulkan-natives-macos.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/PicoGL.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/PicoMath.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/PicoTools.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/RD.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/libraries/lib/scala-library.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

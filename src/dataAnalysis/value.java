@@ -2,7 +2,7 @@ package dataAnalysis;
 
 import java.util.ArrayList;
 
-public class matrixValues {
+public class value {
 
 	private int[] pos ;
 	private double[] ref ;
@@ -13,15 +13,13 @@ public class matrixValues {
 	private ArrayList<String> nameVals0 = new ArrayList<String> ( ) ,
 			 nameVals1 = new ArrayList<String> ( ) ;
 		
-	public matrixValues (int id ,double[] ref , ArrayList<Double> vals0 , ArrayList<Double> vals1 , ArrayList<String>  nameVals1 ) {
+	public value (int id ,double[] ref , ArrayList<Double> vals0 , ArrayList<Double> vals1 , ArrayList<String>  nameVals1 ) {
 		this.id = id ;
 		this.ref = ref ;
 		this.vals0 = vals0 ;
 		this.vals1 = vals1 ;
 		this. nameVals1 = nameVals1 ;
 	}
-	
-	
 
 // GET METHODS --------------------------------------------------------------------------------------------------------------------------------------
 

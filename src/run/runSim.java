@@ -61,7 +61,7 @@ public class runSim implements parameters {
 		// layer infinite paraboloid 
 		layerCell lParab = new layerCell(1, 1, sizeGridX, sizeGridY ,3,3) ;
 		lParab.initCells();
-		lParab.setGridInValsLayer(lParab.getInfiniteParaboloid(0, .2000, .200, new double[] {sizeGridX/2 ,sizeGridY/2 ,0} ), 0);
+		lParab.setGridInValsLayer(lParab.getInfiniteParaboloid(0, .002000, .00200, new double[] {sizeGridX/2 ,sizeGridY/2 ,0} ), 0);
 		
 		// layer bumps
 		layerCell lBumps = new layerCell(1, 1, sizeGridX, sizeGridY ,3,3) ;
@@ -79,17 +79,17 @@ public class runSim implements parameters {
 		vfParab.setInterpolationParameters( 0, 1, 2 );
 		
 		// layer Seed
-		vectorField[] vfs = new vectorField[] { vfRd   } ; 
+		vectorField[] vfs = new vectorField[] { vfRd  , vfBumps } ; 
 		layerSeed lSeed = new layerSeed( vfs, 
-				new double[] { 1 		
+				new double[] { 1 , .05		
 				} ) ;																																				
 																						
 		// layer net
 		layerNet lNet = new layerNet("net") ;
 		lNet.setLayers( bks, lSeed, lRd, lMl);
 		lSeed.setLayers(lNet, bks, lRd);
-	//	framework.initCircle(lSeed, lRd, new double[] {1,1} , numNodes,new int[] { sizeGridX/2 , sizeGridY/2 }, radiusNet);
-		framework.initMultiRandomCircle(lSeed, lRd,  new double[] {perturVal0,perturVal1}, numNodes, radiusRd , radiusNet , numInit );
+		framework.initCircle(lSeed, lRd, new double[] {1,1} , numNodes,new int[] { sizeGridX/2 , sizeGridY/2 }, radiusNet);
+	//	framework.initMultiRandomCircle(lSeed, lRd,  new double[] {perturVal0,perturVal1}, numNodes, radiusRd , radiusNet , numInit );
 	//	framework.initRandomSeed(lSeed, lRd, lNet,  new double[] {1,1} , 200, 20);
 		lNet.setLengthEdges("length" , true );
 		
@@ -99,8 +99,8 @@ public class runSim implements parameters {
 		netGr.display(false) ;
 		vizLayerCell vizlRd = new vizLayerCell(lRd, 1);
 	//	vizLayerCell vizBump = new vizLayerCell(lBumps, 0);
-	//	vizLayerCell vizParab = new vizLayerCell(lParab, 0) ;
-	//	vizParab.step();
+		vizLayerCell vizParab = new vizLayerCell(lParab, 0) ;
+		vizParab.step();
 	
 		// setup viz netGraph
 		handleVizStype netViz = new handleVizStype( netGr ,stylesheet.manual , "seed", 1) ;
