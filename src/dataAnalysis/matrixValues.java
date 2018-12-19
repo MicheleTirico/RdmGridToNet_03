@@ -21,18 +21,14 @@ public class matrixValues {
 		this. nameVals1 = nameVals1 ;
 	}
 	
-	
-
 // GET METHODS --------------------------------------------------------------------------------------------------------------------------------------
 
 	public int getId ( ) {
 		return id;
-	}
-		
+	}	
 	public double[] getRef ( ) {
 		return ref;
 	}
-	
 	public ArrayList<Double>getvals0 ( ) {
 		return vals0;
 	}

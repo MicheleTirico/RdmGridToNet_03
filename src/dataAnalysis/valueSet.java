@@ -42,6 +42,10 @@ public class valueSet {
 		mapIdV.put(id, v);
 	}
 	
+	public void setValue ( double[] fk ) {
+		listFK.add(fk);
+	}
+	
 
 // GET VALUE SET ------------------------------------------------------------------------------------------------------------------------------------	
 	public value getValue ( String id ) {

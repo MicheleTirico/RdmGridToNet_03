@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class computeMatrix {
 
-	protected static String path = "D:\\java_data_analysis\\data_test";
+	protected static String path = "C:\\Users\\frenz\\data\\data\\test02" ; //  "D:\\java_data_analysis\\data_test";
 	static File[] files = new File(path).listFiles();
 	
 	static BufferedReader br ;
@@ -38,9 +38,26 @@ public class computeMatrix {
     		String lineIndicator = br.readLine() ,
     				nameIndStr = lineIndicator.split(";")[0],
     				line = br.readLine() ;
+    		
+    		System.out.println(f);
     	
     	}
 	  }
 	
+	private static String[] getLastLine ( ) throws IOException {
+		String[] lastLine = null ;
+		String line = "" ;
+		int posLine = 0 ;
+		while(line!=null) {      
+            line = br.readLine();  
+            try {
+            	lastLine = line.split(";");
+            	posLine++ ;	
+            } catch (NullPointerException e) {
+			 br.close(); 			
+            }     
+		}
+		return lastLine ;
+	}
 	
 }
